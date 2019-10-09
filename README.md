@@ -122,10 +122,10 @@ You can customize the widget position in TouchBar from the **Customize** menu it
 * Change time format [Done]
 * Incorrect Long tap zone for Control Center buttons [Done]
 * Slider icons are wrong for both [Done]
-* Brightness resets
+* Auto open in window if app is only open in top bar [Done]
+* Brightness resets [Done]
 * Add system like slider for brightness and volume and also two/three finger scroll [Requires rewriting PKSlideableController]
 * Music widget doesn’t handle multiple sources well enough
-* Auto open in window if app is only open in top bar [Done]
 * Add custom buttons
 * Tap to switch does not work for maximized window
 
