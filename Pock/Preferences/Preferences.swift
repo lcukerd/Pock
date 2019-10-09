@@ -43,21 +43,33 @@ enum NotificationBadgeRefreshRateKeys: Double, Codable, CaseIterable {
     func toString() -> String {
         switch self {
         case .never:
-            return "Never"
+            return "Never".localized
         case .instantly:
-            return "Instantly"
+            return "Instantly".localized
         case .oneSecond:
-            return "1 second"
+            return "1 second".localized
         case .fiveSeconds:
-            return "5 seconds"
+            return "5 seconds".localized
         case .tenSeconds:
-            return "10 seconds"
+            return "10 seconds".localized
         case .thirtySeconds:
-            return "30 seconds"
+            return "30 seconds".localized
         case .oneMinute:
-            return "1 minute"
+            return "1 minute".localized
         case .threeMinutes:
-            return "3 minutes"
+            return "3 minutes".localized
+        }
+    }
+}
+
+enum AppExposeSettings : String, Codable, CaseIterable {
+    case never, ifNeeded, always
+
+    var title: String {
+        switch self {
+        case .never: return "Never".localized
+        case .ifNeeded: return "More Than 1 Window".localized
+        case .always: return "Always".localized
         }
     }
 }
@@ -68,6 +80,7 @@ extension Defaults.Keys {
     static let enableAutomaticUpdates           = Defaults.Key<Bool>("enableAutomaticUpdates", default: false)
     /// Dock widget
     static let notificationBadgeRefreshInterval = Defaults.Key<NotificationBadgeRefreshRateKeys>("notificationBadgeRefreshInterval", default: .tenSeconds)
+    static let appExposeSettings                = Defaults.Key<AppExposeSettings>("appExposeSettings", default: .ifNeeded)
     static let itemSpacing                      = Defaults.Key<Int>("itemSpacing",             default: 8)
     static let hideFinder                       = Defaults.Key<Bool>("hideFinder",             default: false)
     static let showOnlyRunningApps              = Defaults.Key<Bool>("showOnlyRunningApps",    default: false)

@@ -5,6 +5,10 @@
 Podfile.lock
 Pods/
 
+## No Carthage folder
+Cartfile.resolved
+Carthage/
+
 ## Userdata
 Pock.xcodeproj/project.pbxproj/
 Pock.xcodeproj/xcshareddata/xcschemes/Pock.xcscheme

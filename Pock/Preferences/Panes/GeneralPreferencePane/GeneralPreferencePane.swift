@@ -22,9 +22,9 @@ final class GeneralPreferencePane: NSViewController, PreferencePane {
     
     /// Endpoint
     #if DEBUG
-    private let latestVersionURLString: String = "https://pock.pigigaldi.com/api/dev/latestRelease.json"
+    private let latestVersionURLString: String = "https://pock.dev/api/dev/latestRelease.json"
     #else
-    private let latestVersionURLString: String = "https://pock.pigigaldi.com/api/latestRelease.json"
+    private let latestVersionURLString: String = "https://pock.dev/api/latestRelease.json"
     #endif
     
     /// Updates
@@ -35,7 +35,7 @@ final class GeneralPreferencePane: NSViewController, PreferencePane {
     
     /// Preferenceable
     var preferencePaneIdentifier: Identifier = Identifier.general
-    let preferencePaneTitle:      String     = "General"
+    let preferencePaneTitle:      String     = "General".localized
     let toolbarItemIcon:          NSImage    = NSImage(named: NSImage.preferencesGeneralName)!
     
     override var nibName: NSNib.Name? {
@@ -63,12 +63,13 @@ final class GeneralPreferencePane: NSViewController, PreferencePane {
     }
     
     private func setupCheckboxes() {
-        self.hideControlStripCheckbox.state = defaults[.hideControlStrip]       ? .on : .off
-        self.enableAutomaticUpdates.state   = defaults[.enableAutomaticUpdates] ? .on : .off
+        self.hideControlStripCheckbox.state = Defaults[.hideControlStrip]       ? .on : .off
+        self.enableAutomaticUpdates.state   = Defaults[.enableAutomaticUpdates] ? .on : .off
+        self.launchAtLoginCheckbox.state    = LaunchAtLogin.isEnabled           ? .on : .off
     }
     
     @IBAction private func didChangeHideControlStripValue(button: NSButton) {
-        defaults[.hideControlStrip] = button.state == .on
+        Defaults[.hideControlStrip] = button.state == .on
         NSWorkspace.shared.notificationCenter.post(name: .shouldReloadPock, object: nil)
     }
     
@@ -77,23 +78,23 @@ final class GeneralPreferencePane: NSViewController, PreferencePane {
     }
     
     @IBAction private func didChangeEnableAutomaticUpdates(button: NSButton) {
-        defaults[.enableAutomaticUpdates] = button.state == .on
+        Defaults[.enableAutomaticUpdates] = button.state == .on
         NSWorkspace.shared.notificationCenter.post(name: .shouldEnableAutomaticUpdates, object: nil)
     }
     
     @IBAction private func checkForUpdates(_ sender: NSButton) {
         self.checkForUpdatesButton.isEnabled = false
-        self.checkForUpdatesButton.title     = "Checking..."
+        self.checkForUpdatesButton.title     = "Checking…".localized
         
         self.hasLatestVersion(completion: { [weak self] latestVersion, latestVersionDownloadURL in
             if let latestVersion = latestVersion, let latestVersionDownloadURL = latestVersionDownloadURL {
                 self?.showNewVersionAlert(versionNumber: latestVersion, downloadURL: latestVersionDownloadURL)
             }else {
-                self?.showAlert(title: "Installed version: \(GeneralPreferencePane.appVersion)", message: "Already on latest version")
+                self?.showAlert(title: "Installed version".localized + ": \(GeneralPreferencePane.appVersion)", message: "Already on latest version".localized)
             }
             DispatchQueue.main.async { [weak self] in
                 self?.checkForUpdatesButton.isEnabled = true
-                self?.checkForUpdatesButton.title     = "Check for updates"
+                self?.checkForUpdatesButton.title     = "Check for updates".localized
             }
         })
     }
@@ -101,9 +102,9 @@ final class GeneralPreferencePane: NSViewController, PreferencePane {
 
 extension GeneralPreferencePane {
     func showNewVersionAlert(versionNumber: String, downloadURL: URL) {
-        self.showAlert(title:      "New version available!",
-                       message:    "Do you want to download version \"\(versionNumber)\" now?",
-            buttons:    ["Download", "Later"],
+        self.showAlert(title:      "New version available!".localized,
+                       message:    "Do you want to download version".localized + " \"\(versionNumber)\" " + "now?".localized,
+            buttons:    ["Download".localized, "Later".localized],
             completion: { modalResponse in if modalResponse == .alertFirstButtonReturn { NSWorkspace.shared.open(downloadURL) }
         })
     }

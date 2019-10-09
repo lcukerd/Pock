@@ -64,12 +64,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.image?.isTemplate = true
             /// Create menu
             let menu = NSMenu(title: "Pock Options")
-            menu.addItem(withTitle: "Preferences…", action: #selector(openPreferences),   keyEquivalent: ",")
-            menu.addItem(withTitle: "Customize…",   action: #selector(openCustomization), keyEquivalent: "c")
+            menu.addItem(withTitle: "Preferences…".localized, action: #selector(openPreferences),   keyEquivalent: ",")
+            menu.addItem(withTitle: "Customize…".localized,   action: #selector(openCustomization), keyEquivalent: "c")
             menu.addItem(NSMenuItem.separator())
-            menu.addItem(withTitle: "Support this project", action: #selector(openDonateURL),  keyEquivalent: "s")
+            menu.addItem(withTitle: "Support this project".localized, action: #selector(openDonateURL),  keyEquivalent: "s")
             menu.addItem(NSMenuItem.separator())
-            menu.addItem(withTitle: "Quit Pock", action: #selector(NSApp.terminate), keyEquivalent: "q")
+            menu.addItem(withTitle: "Quit Pock".localized, action: #selector(NSApp.terminate), keyEquivalent: "q")
             pockStatusbarIcon.menu = menu
         }
         
@@ -115,7 +115,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc private func toggleAutomaticUpdatesTimer() {
-        if defaults[.enableAutomaticUpdates] {
+        if Defaults[.enableAutomaticUpdates] {
             automaticUpdatesTimer = Timer.scheduledTimer(timeInterval: 86400 /*24h*/, target: self, selector: #selector(checkForUpdates), userInfo: nil, repeats: true)
         }else {
             automaticUpdatesTimer?.invalidate()
